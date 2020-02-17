@@ -83,23 +83,23 @@ let color = {
         this.updateGrid();
     },
 };
-let color100 = Object.create(color);
+var color100 = Object.create(color);
 color100.shade = 100;
-let color200 = Object.create(color);
+var color200 = Object.create(color);
 color200.shade = 200;
-let color300 = Object.create(color);
+var color300 = Object.create(color);
 color300.shade = 300;
-let color400 = Object.create(color);
+var color400 = Object.create(color);
 color400.shade = 400;
-let color500 = Object.create(color);
+var color500 = Object.create(color);
 color500.shade = 500;
-let color600 = Object.create(color);
+var color600 = Object.create(color);
 color600.shade = 600;
-let color700 = Object.create(color);
+var color700 = Object.create(color);
 color700.shade = 700;
-let color800 = Object.create(color);
+var color800 = Object.create(color);
 color800.shade = 800;
-let color900 = Object.create(color);
+var color900 = Object.create(color);
 color900.shade = 900;
 
 /**
@@ -137,6 +137,21 @@ recalculateColors = function () {
     color700.color(hues[6], sats[6], ltns[6]);
     color800.color(hues[7], sats[7], ltns[7]);
     color900.color(hues[8], sats[8], ltns[8]);
+};
+
+/**
+ * Assign values from HSL sliders to colorNNN variables. This updates the
+ * corresponding input fields.
+ *
+ * Call recalculateColors() as the next step, which gathers all color values
+ * from the input fields.
+ */
+recalculateColorsFromSlider = function() {
+    window['color' + currSliderShade].color(
+        domSliderHue.value,
+        domSliderSat.value,
+        domSliderLtn.value);
+    recalculateColors();
 };
 
 /**
@@ -317,42 +332,23 @@ color500.color(demoColorsHue[Math.floor(Math.random() * demoColorsHue.length)], 
 disableProMode();
 recalculateColors();
 
-domSliderHue.addEventListener("input", function () {
-    window['color' + currSliderShade].hue = parseFloat(this.value);
-    recalculateColors();
-});
-domSliderSat.addEventListener("input", function () {
-    window['color' + currSliderShade].sat = parseFloat(this.value);
-    recalculateColors();
-});
-domSliderLtn.addEventListener("input", function () {
-    window['color' + currSliderShade].ltn = parseFloat(this.value);
-    recalculateColors();
-});
-domInputH500.addEventListener("input", function () {
-    color500.hue = parseFloat(this.value);
-    recalculateColors();
-});
-domInputS500.addEventListener("input", function () {
-    color500.sat = parseFloat(this.value);
-    recalculateColors();
-});
-domInputL500.addEventListener("input", function () {
-    color500.ltn = parseFloat(this.value);
-    recalculateColors();
-});
-domInputH100.addEventListener("input", function () {
-    color100.hue = parseFloat(this.value);
-    recalculateColors();
-});
-domInputS100.addEventListener("input", function () {
-    color100.sat = parseFloat(this.value);
-    recalculateColors();
-});
-domInputL100.addEventListener("input", function () {
-    color100.ltn = parseFloat(this.value);
-    recalculateColors();
-});
+domSliderHue.addEventListener("input", recalculateColorsFromSlider);
+domSliderSat.addEventListener("input", recalculateColorsFromSlider);
+domSliderLtn.addEventListener("input", recalculateColorsFromSlider);
+
+/**
+ * recalculateColors() fetches the values from the input fields, updates the
+ * HSL sliders and finally updates the all colorNNN variables
+ */
+domInputH100.addEventListener("input", recalculateColors);
+domInputS100.addEventListener("input", recalculateColors);
+domInputL100.addEventListener("input", recalculateColors);
+domInputH500.addEventListener("input", recalculateColors);
+domInputS500.addEventListener("input", recalculateColors);
+domInputL500.addEventListener("input", recalculateColors);
+domInputH900.addEventListener("input", recalculateColors);
+domInputS900.addEventListener("input", recalculateColors);
+domInputL900.addEventListener("input", recalculateColors);
 
 let changeSliderShadeTo100 = function () {
     changeSliderShade(100);
