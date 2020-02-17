@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title>signaal – Color Palette Generator</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- <link rel="manifest" href="site.webmanifest"> -->
+  <!-- <link rel="apple-touch-icon" href="icon.png"> -->
+  <link rel="stylesheet" href="main.css">
+  
+  <!-- <meta name="theme-color" content="#fafafa"> -->
+</head>
+<body>
+  <h1>Color Palette Generator</h1>
+  
+  <section id="color-selector">
+    <h2>Select base color:</h2>
+    <div class="slider-container hue">
+      <input type="range" min="0" max="360" value="0" class="hue slider" id="slider-hue">
+    </div>
+    <div class="slider-container sat">
+      <input type="range" min="1" max="100" value="100" class="sat slider" id="slider-sat">
+    </div>
+    <div class="slider-container ltn">
+      <input type="range" min="1" max="100" value="50" class="ltn slider" id="slider-ltn">
+    </div>
+  </section>
+  
+  <section id="color-values">
+    <label><input type="checkbox" id="pro-mode">Enable Pro Mode (Customize light and dark colors)</label>
+    <table >
+      <colgroup>
+        <col class="colTitle">
+        <col class="col1 colValue">
+        <col class="col2 colValue">
+        <col class="col3 colValue">
+        <col class="col4 colValue">
+        <col class="col5 colValue">
+        <col class="col6 colValue">
+        <col class="col7 colValue">
+        <col class="col8 colValue">
+        <col class="col9 colValue">
+      </colgroup>
+      <tr>
+        <th></th>
+        <th>100</th>
+        <th>200</th>
+        <th>300</th>
+        <th>400</th>
+        <th>500</th>
+        <th>600</th>
+        <th>700</th>
+        <th>800</th>
+        <th>900</th>
+      </tr>
+      <tr>
+        <th>H</th>
+        <td id="H100"><input type="number" min="0" max="360" size="3" pattern="[0-3]?\d?\d?" inputmode="decimal"></td>
+        <td id="H200"></td>
+        <td id="H300"></td>
+        <td id="H400"></td>
+        <td id="H500"><input type="number" min="0" max="360" size="3" pattern="[0-3]?\d?\d?" inputmode="decimal"></td>
+        <td id="H600"></td>
+        <td id="H700"></td>
+        <td id="H800"></td>
+        <td id="H900"><input type="number" min="0" max="360" size="3" pattern="[0-3]?\d?\d?" inputmode="decimal"></td>
+      </tr>
+      <tr>
+        <th>S</th>
+        <td id="S100"><input type="number" min="0" max="100" size="3" pattern="[0-1]?\d?\d?" inputmode="decimal" value="100"></td>
+        <td id="S200"></td>
+        <td id="S300"></td>
+        <td id="S400"></td>
+        <td id="S500"><input type="number" min="0" max="100" size="3" pattern="[0-1]?\d?\d?" inputmode="decimal" value="50"></td>
+        <td id="S600"></td>
+        <td id="S700"></td>
+        <td id="S800"></td>
+        <td id="S900"><input type="number" min="0" max="100" size="3" pattern="[0-1]?\d?\d?" inputmode="decimal" value="30"></td>
+      </tr>
+      <tr>
+        <th>L</th>
+        <td id="L100"><input type="number" min="0" max="100" size="3" pattern="[0-1]?\d?\d?" inputmode="decimal" value="95"></td>
+        <td id="L200"></td>
+        <td id="L300"></td>
+        <td id="L400"></td>
+        <td id="L500"><input type="number" min="0" max="100" size="3" pattern="[0-1]?\d?\d?" inputmode="decimal" value="50"></td>
+        <td id="L600"></td>
+        <td id="L700"></td>
+        <td id="L800"></td>
+        <td id="L900"><input type="number" min="0" max="100" size="3" pattern="[0-1]?\d?\d?" inputmode="decimal" value="10"></td>
+      </tr>
+      <tr class="color-boxes">
+        <td></td>
+        <td class="color-box C100"></td>
+        <td class="color-box C200"></td>
+        <td class="color-box C300"></td>
+        <td class="color-box C400"></td>
+        <td class="color-box C500"></td>
+        <td class="color-box C600"></td>
+        <td class="color-box C700"></td>
+        <td class="color-box C800"></td>
+        <td class="color-box C900"></td>
+      </tr>
+    </table>
+  </section>
+  
+  
+  <section id="gridwrapper">
+    <span class="label saturation"><span>Saturation</span></span>
+    <span class="label lightness"><span>Lightness</span></span>
+    <div id="grid">
+      <span class="hline" style="top:10%;"></span>
+      <span class="hline" style="top:20%;"></span>
+      <span class="hline" style="top:30%;"></span>
+      <span class="hline" style="top:40%;"></span>
+      <span class="hline" style="top:50%;"></span>
+      <span class="hline" style="top:60%;"></span>
+      <span class="hline" style="top:70%;"></span>
+      <span class="hline" style="top:80%;"></span>
+      <span class="hline" style="top:90%;"></span>
+      <span class="vline" style="left:10%;"></span>
+      <span class="vline" style="left:20%;"></span>
+      <span class="vline" style="left:30%;"></span>
+      <span class="vline" style="left:40%;"></span>
+      <span class="vline" style="left:50%;"></span>
+      <span class="vline" style="left:60%;"></span>
+      <span class="vline" style="left:70%;"></span>
+      <span class="vline" style="left:80%;"></span>
+      <span class="vline" style="left:90%;"></span>
+      <span class="color C100"></span>
+      <span class="color C200"></span>
+      <span class="color C300"></span>
+      <span class="color C400"></span>
+      <span class="color C500"></span>
+      <span class="color C600"></span>
+      <span class="color C700"></span>
+      <span class="color C800"></span>
+      <span class="color C900"></span>
+    </div>
+  </section>
+  
+  <script src="main.js"></script>
+</body>
+</html>
