@@ -1,4 +1,3 @@
-// let domColorSelector = document.querySelector("#color-selector");
 let domRoot = document.documentElement;
 let domSliderHue = document.querySelector("#slider-hue");
 let domSliderSat = document.querySelector("#slider-sat");
@@ -127,29 +126,32 @@ recalcColors = function() {
 };
 recalcHue = function(h500, h100 = null, h900 = null) {
     if(h900 == null) {
-        h100 = Math.max(0, Math.min(h500-15, Math.round(0.97 * h500)));
-        h900 = Math.min(360, Math.max(h500+10, Math.round(1.03 * h500)));
+        h100 = Math.max(0, h500-10);
+        h900 = Math.min(360, h500+10);
     }
-
-    return recalcValue(h100, h500, h900, 1, 2, 3);
-}
+    
+    // use linear interpolation
+    return recalcValue(h100, h500, h900, 1/4, 2/4, 3/4);
+};
 
 recalcSat = function(s500, s100 = null, s900 = null) {
     if(s900 == null) {
-        s100 = Math.max(s500, Math.min(90, 3 * s500));
-        s900 = Math.min(s500, Math.max(30, 0.2*s500));
+        s100 = Math.max(s500, Math.min(90, 3.0 * s500));
+        s900 = Math.min(s500, Math.max(30, 0.2 * s500));
     }
-
-    return recalcValue(s100, s500, s900, 0.5, 1.5, 2.8);
+    
+    // use non-linear interpolation
+    return recalcValue(s100, s500, s900, 0.5/4, 1.5/4, 2.8/4);
 };
 
 recalcLtn = function(l500, l100 = null, l900 = null) {
     if(l900 == null) {
-        l100 = Math.max(l500, Math.min(95, 3 * l500));
-        l900 = Math.min(l500, Math.max(10, 0.2*l500));
+        l100 = Math.max(l500, Math.min(95, 3.0 * l500));
+        l900 = Math.min(l500, Math.max(10, 0.2 * l500));
     }
-
-    return recalcValue(l100, l500, l900, 1.2, 2.4, 3.4);
+    
+    // use non-linear interpolation
+    return recalcValue(l100, l500, l900, 1.2/4, 2.4/4, 3.4/4);
 };
 
 /**
@@ -157,15 +159,15 @@ recalcLtn = function(l500, l100 = null, l900 = null) {
  */
 recalcValue = function(v100, v500, v900, factor1, factor2, factor3) {
     let v = [];
-
+    
     v[0] = v100;
-    v[1] = (v500 - (v500 - v100) / 4 * factor3).toFixed(1);
-    v[2] = (v500 - (v500 - v100) / 4 * factor2).toFixed(1);
-    v[3] = (v500 - (v500 - v100) / 4 * factor1).toFixed(1);
+    v[1] = (v500 - (v500 - v100) * factor3).toFixed(1);
+    v[2] = (v500 - (v500 - v100) * factor2).toFixed(1);
+    v[3] = (v500 - (v500 - v100) * factor1).toFixed(1);
     v[4] = v500;
-    v[5] = (v500 - (v500 - v900) / 4 * factor1).toFixed(1);
-    v[6] = (v500 - (v500 - v900) / 4 * factor2).toFixed(1);
-    v[7] = (v500 - (v500 - v900) / 4 * factor3).toFixed(1);
+    v[5] = (v500 - (v500 - v900) * factor1).toFixed(1);
+    v[6] = (v500 - (v500 - v900) * factor2).toFixed(1);
+    v[7] = (v500 - (v500 - v900) * factor3).toFixed(1);
     v[8] = v900;
     
     return v;
@@ -180,7 +182,7 @@ changeSliderShade = function(shade) {
     recalcColors();
 };
 
-function enableProMode() {
+enableProMode = function() {
     domCheckboxProMode.checked = "checked";
     domInputH100.disabled = "";
     domInputS100.disabled = "";
@@ -189,8 +191,9 @@ function enableProMode() {
     domInputS900.disabled = "";
     domInputL900.disabled = "";
     proMode = true;
-}
-function disableProMode() {
+};
+
+disableProMode = function() {
     domCheckboxProMode.checked = "";
     domInputH100.disabled = "disabled";
     domInputS100.disabled = "disabled";
@@ -201,21 +204,15 @@ function disableProMode() {
     changeSliderShade(500);
     proMode = false;
     recalcColors();
-}
-function checkProMode() {
+};
+
+checkProMode = function() {
     if(domCheckboxProMode.checked) {
         enableProMode();
     } else {
         disableProMode();
     }
-}
-
-
-
-
-
-
-
+};
 
 // color500.hue = getRandomInt(360);
 // color500.sat = 60;
