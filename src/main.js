@@ -30,6 +30,17 @@ let color = {
         this.sat = newSat;
         this.ltn = newLtn;
     },
+    updateDisplay: function() {
+        this.updateGrid();
+        this.updateColorValues();
+    },
+    updateColorValues: function() {
+        let colorbox = document.querySelector("td.color-box.C" + this.shade);
+        let rgb = hsl2rgb(this.h, this.s, this.l);
+        colorbox.querySelector(".hex").innerHTML = rgb2hex(rgb[0], rgb[1], rgb[2]);
+        colorbox.querySelector(".rgb").innerHTML = "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
+        colorbox.querySelector(".hsl").innerHTML = "hsl(" + this.h + "," + this.s + "," + this.l + ")";
+    },
     updateGrid: function () {
         document.querySelector("#grid span.C" + this.shade).style.left = "calc(" + this.l + "% - var(--radius))";
         document.querySelector("#grid span.C" + this.shade).style.bottom = "calc(" + this.s + "% - var(--radius))";
@@ -64,7 +75,7 @@ let color = {
         if (input !== null) {
             input.value = this.s;
         }
-        this.updateGrid();
+        this.updateDisplay();
     },
     l: 50,
     set ltn(newLtn) {
@@ -80,7 +91,7 @@ let color = {
         if (input !== null) {
             input.value = this.l;
         }
-        this.updateGrid();
+        this.updateDisplay();
     },
 };
 var color100 = Object.create(color);
@@ -325,6 +336,55 @@ checkProMode = function () {
         disableProMode();
     }
 };
+
+/**
+ * Convert HSL values to array of RGB values using the method described in
+ * https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB_alternative
+ *
+ * @param {number} h Hue value [0-360]
+ * @param {number} s Saturation value [0-100]
+ * @param {number} l Lightness value [0-100]
+ * 
+ * @return {Array.<number>} Array of RGB values ranging [0-255]
+ */
+hsl2rgb = function(h, s, l) {
+    _hsl2rgb = function(n) {
+        a = s / 100 * Math.min(l / 100, 1 - l / 100);
+        k = (n + h / 30) % 12;
+        return Math.round((l / 100 - a * Math.max(-1, Math.min(k - 3, 9 - k, 1))) * 255);
+    };
+    return [_hsl2rgb(0), _hsl2rgb(8), _hsl2rgb(4)];
+};
+
+/**
+ * Convert RGB values to HEX value
+ * 
+ * @param {number} r Red value [0-255]
+ * @param {number} g Green value [0-255]
+ * @param {number} b Blue value [0-255]
+ * 
+ * @return {string} RGB color in hexformat #RRGGBB
+ */
+rgb2hex = function(r, g, b) {
+    rHex = r.toString(16).padStart(2,"0").toUpperCase();
+    gHex = g.toString(16).padStart(2,"0").toUpperCase();
+    bHex = b.toString(16).padStart(2,"0").toUpperCase();
+    return "#"+ rHex + gHex + bHex;
+};
+
+/**
+ * Convert HSL values to HEX value
+ *
+ * @param {number} h Hue value [0-360]
+ * @param {number} s Saturation value [0-100]
+ * @param {number} l Lightness value [0-100]
+ * 
+ * @return {string} RGB color in hexformat #RRGGBB
+ */
+hsl2hex = function(h, s, l) {
+    rgb = hsl2rgb(h,s,l);
+    return rgb2hex(rgb[0], rgb[1], rgb[2]);
+}
 
 let demoColorsHue = [40, 20, 0, 304, 203, 151, 15];
 // hues for Signal... RAL colors: https://de.wikipedia.org/wiki/RAL-Farbe
